@@ -11,8 +11,8 @@ import Vapor
 final class Book: Codable {
     
     var id: Int?
-    let title: String
-    let author: String
+    var title: String
+    var author: String
     
     init(title: String, author: String) {
         self.title = title

@@ -23,4 +23,22 @@ final class BookController: RouteCollection {
     func createBookHandler(_ req: Request, book: Book) throws -> Future<Book> {
         return book.save(on: req)
     }
+    
+    func updateHandler(_ req: Request) throws -> Future<Book> {
+        return try flatMap(to: Book.self,
+                           req.parameters.next(Book.self),
+                           req.content.decode(Book.self),
+                           { book, updateBook  in
+            
+                            book.title = updateBook.title
+                            book.author = updateBook.author
+                            return book.save(on: req)
+        })
+    }
+    
+    func deleteHandler(_ req: Request) throws -> Future<HTTPStatus> {
+        return try req.parameters.next(Book.self)
+                   .delete(on: req)
+                   .transform(to: HTTPStatus.noContent)
+    }
 }
