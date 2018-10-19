@@ -14,6 +14,8 @@ final class BookController: RouteCollection {
         
         bookRoutes.get(use: getAllBooks)
         bookRoutes.post(Book.self, use: createBookHandler)
+        bookRoutes.put(Book.parameter, use: updateHandler)
+        bookRoutes.delete(Book.parameter, use: deleteHandler)
     }
     
     func getAllBooks(_ req: Request) throws -> Future<[Book]> {
