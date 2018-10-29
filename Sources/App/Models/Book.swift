@@ -19,9 +19,17 @@ final class Book: Codable {
     var lastCheckedOutBy: String?
     
     init(title: String,
-         author: String) {
+         author: String,
+         categories: String?,
+         publisher: String?,
+         lastCheckedOut: String?,
+         lastCheckedOutBy: String?) {
         self.title = title
         self.author = author
+        self.categories = categories
+        self.publisher = publisher
+        self.lastCheckedOut = lastCheckedOut
+        self.lastCheckedOutBy = lastCheckedOutBy
     }
 }
 // The Fluent packages provide Model helper protocols for each database provider so you don’t have to specify the database or ID types, or the key. The SQLiteModel protocol must have an ID of type Int? called id, but there are SQLiteUUIDModel and SQLiteStringModel protocols for models with IDs of type UUID or String. If you want to customize the ID property name, you must conform to the standard Model protocol.
