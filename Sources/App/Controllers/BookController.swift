@@ -16,6 +16,7 @@ final class BookController: RouteCollection {
         bookRoutes.post(Book.self, use: createBookHandler)
         bookRoutes.put(Book.parameter, use: updateHandler)
         bookRoutes.delete(Book.parameter, use: deleteHandler)
+        bookRoutes.delete("clear", use: resetData)
     }
     
     func getAllBooks(_ req: Request) throws -> Future<[Book]> {
@@ -42,5 +43,11 @@ final class BookController: RouteCollection {
         return try req.parameters.next(Book.self)
                    .delete(on: req)
                    .transform(to: HTTPStatus.noContent)
+    }
+    
+    func resetData(req: Request) throws -> Future<Response> {
+        return Book.query(on: req).delete().map(to: Response.self) {
+            return Response(http: HTTPResponse(status: .ok), using: req)
+        }
     }
 }
