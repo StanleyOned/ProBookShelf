@@ -31,7 +31,7 @@ final class BookController: RouteCollection {
         return try flatMap(to: Book.self,
                            req.parameters.next(Book.self),
                            req.content.decode(Book.self),
-                           { book, updateBook  in
+                           { book, updateBook -> Future<Book>  in
             
                             book.title = updateBook.title
                             book.author = updateBook.author
