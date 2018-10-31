@@ -35,8 +35,6 @@ final class BookController: RouteCollection {
             
                             book.title = updateBook.title
                             book.author = updateBook.author
-                            book.publisher = updateBook.publisher
-                            book.categories = updateBook.categories
                             book.lastCheckedOut = updateBook.lastCheckedOut
                             book.lastCheckedOutBy = updateBook.lastCheckedOutBy
                             return book.save(on: req)
