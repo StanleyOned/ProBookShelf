@@ -13,6 +13,7 @@ final class BookController: RouteCollection {
         let bookRoutes = router.grouped("api", "books")
         
         bookRoutes.get(use: getAllBooks)
+        bookRoutes.get(Int.parameter, use: getBookForId)
         bookRoutes.post(Book.self, use: createBookHandler)
         bookRoutes.put(Book.parameter, use: updateHandler)
         bookRoutes.delete(Book.parameter, use: deleteHandler)
@@ -21,6 +22,11 @@ final class BookController: RouteCollection {
     
     func getAllBooks(_ req: Request) throws -> Future<[Book]> {
         return Book.query(on: req).all()
+    }
+
+    func getBookForId(_ req: Request) throws -> Future<Book> {
+        let id = try req.parameters.next(Int.self)
+        return Book.find(id, on: req).unwrap(or: Abort.init(HTTPResponseStatus.notFound))
     }
     
     func createBookHandler(_ req: Request, book: Book) throws -> Future<Book> {
